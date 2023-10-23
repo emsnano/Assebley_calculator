@@ -1,0 +1,975 @@
+WindowManager:
+    StartWindow:
+    WorkWithComponentsWindow:
+
+
+<StartWindow>
+    name:"Startowe"
+    
+    MDFloatLayout:
+
+        MDLabel:
+            text:'Nanotech Elektronik Polska'
+            font_size: 25
+            pos_hint: {"x":0.15, "y":0.65, "bottom":1}
+            size_hint: 0.5, 0.07
+        MDLabel:
+            text:'Kalkulator montażu komponentów V1.0'
+            font_size: 17
+            pos_hint: {"x":0.15, "y":0.58, "bottom":1}
+            size_hint: 0.5, 0.07
+        
+                #Przyciski wyboru wersji LZ Excela
+        MDLabel_custom:
+            text: 'LZ V2.2'
+            size_hint: 0.13, 0.07
+            halign: "center"
+            pos_hint: {"x":0.745, "y":0.345, "bottom":1}
+        Check_LZ:
+            pos_hint: {"x":0.79, "y":0.31, "bottom":1}
+            on_active: root.change_LZ('Old')
+
+        MDLabel_custom:
+            text: 'LZ V3.0'
+            size_hint: 0.13, 0.07
+            halign: "center"
+            pos_hint: {"x":0.825, "y":0.345, "bottom":1}
+        Check_LZ:
+            active: True
+            pos_hint: {"x":0.87, "y":0.31, "bottom":1}
+            on_active: root.change_LZ('New')
+        #Przycisk pokazu instrukcji Light 
+        MDRoundFlatButton:
+            pos_hint: {"x":0.785, "y":0.225, "bottom":1}
+            # size_hint: 0.14, 0.08
+            text: "Instrukcja użytkownika"  
+            on_release: root.Pokaz_instarukcje()
+        MDRoundFlatButton:
+            pos_hint: {"x":0.792, "y":0.17, "bottom":1}
+            # size_hint: 0.14, 0.08
+            text: "Instrukcja developera"  
+            on_release: root.Pokaz_instarukcje()
+        MDFillRoundFlatButton :
+            pos_hint: {"x":0.819, "y":0.095, "bottom":1}
+            text: "Kalkulator"
+            on_release:
+                app.root.current = "Komponentowe"
+                root.manager.transition.direction = "left"
+        MDFillRoundFlatButton :
+            pos_hint: {"x":0.810, "y":0.04, "bottom":1}
+            text: "Nowa wycena"
+            on_release:
+                app.root.current = "Komponentowe"
+                root.manager.transition.direction = "left"
+
+
+
+
+
+<WorkWithComponentsWindow>
+    name:"Komponentowe"
+
+    # V2.0
+    ######ZMIENNE
+    edytujbutton: edytujbutton
+    addkomentarz: addkomentarz
+    errorstroki: errorstroki
+    goodstroki: goodstroki
+    loadingspinner: loadingspinner
+    ogolneklient: ogolneklient
+    ogolnenazwa: ogolnenazwa
+    ogolnesztuk: ogolnesztuk
+    statSMT: statSMT
+    statSMTpady: statSMTpady
+    statTHT: statTHT
+    statTHTpady: statTHTpady    
+    iloscwarstw1: iloscwarstw1
+    iloscwarstw2: iloscwarstw2
+    uwagimycie: uwagimycie
+    uwagilakierowanie: uwagilakierowanie
+    uwagiaoi: uwagiaoi
+    uwagirtg: uwagirtg
+    uwagiprogramowanie: uwagiprogramowanie
+    uwagiszlifowanie: uwagiszlifowanie
+    uwagiipc: uwagiipc
+    uwagitestowanie: uwagitestowanie
+    
+    
+    MDFloatLayout:
+        
+        MDFillRoundFlatButton :
+            pos_hint: {"x":0.047, "y":0.28, "bottom":1}
+            text: "Pobierz dane"
+            on_release: root.Wyciagnij_komponenty_potok()
+        MDFillRoundFlatButton :
+            id: edytujbutton
+            pos_hint: {"x":0.047, "y":0.22, "bottom":1}
+            text: "Edytuj wyniki"
+            text_color: [1,1,1,1]
+            on_release: root.Edytuj_wyniki()
+        MDFillRoundFlatButton :
+            pos_hint: {"x":0.047, "y":0.16, "bottom":1}
+            text: "Exportuj w Excel"
+            on_release: root.Exportuj_do_Excela()
+        MDFillRoundFlatButton :
+            pos_hint: {"x":0.047, "y":0.10, "bottom":1}
+            text: "Kalkulator"
+            on_release: root.Wyciagnij_komponenty_potok()
+        MDFillRoundFlatButton :
+            pos_hint: {"x":0.045, "y":0.04, "bottom":1}
+            text: "Wróć na start"
+            on_release:
+                app.root.current = "Startowe"
+                root.manager.transition.direction = "right"
+        
+        
+    MDBoxLayout:
+        orientation:'horizontal'
+        size_hint: (1, 1)
+        padding: root.width/100
+        spacing: root.width/100
+        
+        MDBoxLayout:
+            orientation:'vertical'
+            size_hint: (1, 1)
+            spacing: root.width/100
+            MDSeparator:
+            MDBoxLayout:
+                orientation:'vertical'
+                size_hint: (1, 1)
+                MDBoxLayout:
+                    orientation:'vertical'
+                    size_hint: (1, 0.1)
+                    MDLabel:
+                        text:'Informacja ogólna: '
+                        halign: "center"
+                        font_size:14
+                MDBoxLayout:
+                    orientation:'horizontal'
+                    size_hint: (1, 1)
+                    MDBoxLayout:
+                        orientation:'vertical'
+                        size_hint: (1, 1)     
+                        MDLabel:
+                            text:'Klient: '
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'Nazwa: '
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'Sztuk do wyceny: '
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'Kod projektu: '
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'Obszar: '
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'LZ: '
+                            halign: "center"
+                            font_size:14
+                        # MDLabel:
+                        #     text:'Data: '
+                        #     halign: "center"
+                        #     font_size:14
+                        MDLabel:
+                            text:'Ilość stron montażu: '
+                            halign: "center"
+                            font_size:14
+
+                    MDBoxLayout:
+                        orientation:'vertical'
+                        size_hint: (1, 1)
+                        MDTextField:
+                            id: ogolneklient
+                            multiline: True
+                            text_color_normal: [1,1,1,1]
+                            mode: "round"
+                            # line_color_focus: "red"
+                            text: ''
+                            halign: "center"
+                            font_size:16
+                        MDTextField:
+                            id: ogolnenazwa
+                            multiline: True
+                            text_color_normal: [1,1,1,1]
+                            mode: "round"
+                            text: ''
+                            halign: "center"
+                            font_size:16
+                            on_focus: root.change_klient_MDTekstFrield_on_focus()
+                        MDTextField:
+                            id: ogolnesztuk
+                            multiline: True
+                            readonly: True
+                            # text_color_normal: [28/255,31/255,29/255,1]
+                            text_color_normal: [1,1,1,0.5]
+                            mode: "round"
+                            text: ''
+                            halign: "center"
+                            font_size:16
+                        MDLabel:
+                            text: root.nazwaprojektu
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text: root.graniceprojektu
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text: root.pliklz
+                            halign: "center"
+                            font_size:14
+                        # MDLabel:
+                        #     text: root.datawypelnienia
+                        #     halign: "center"
+                        #     font_size:14
+                        MDBoxLayout:
+                            orientation:'horizontal'
+                            MDBoxLayout:
+                                padding:[25,10,25,0]
+                                MDLabel:
+                                    text:'1: '
+                                    halign: "center"
+                                    font_size:15
+                                Check_LZ:
+                                    id: iloscwarstw1
+                                    on_active: root.change_ilosc_warstw('1')
+                            MDBoxLayout:
+                                padding:[25,10,25,0]
+                                MDLabel:
+                                    text:'2: '
+                                    halign: "center"
+                                    font_size:15
+                                Check_LZ:
+                                    id: iloscwarstw2
+                                    on_active: root.change_ilosc_warstw('2')
+                            # text: root.pliklz
+                            # halign: "center"
+                            # font_size:14
+
+
+            MDSeparator:       
+            MDBoxLayout:
+                orientation:'vertical'
+                size_hint: (1, 1)
+                MDBoxLayout:
+                    orientation:'vertical'
+                    size_hint: (1, 0.2)
+                    MDLabel:
+                        text:'Statystyka ważna: '
+                        halign: "center"
+                        font_size:14
+                MDBoxLayout:
+                    orientation:'horizontal'
+                    size_hint: (1, 1)
+                    MDBoxLayout:
+                        orientation:'vertical'
+                        MDLabel:
+                            text:'Suma komponentów SMT: '
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'Suma padów SMT: '
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'Suma komponentów THT: '
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'Suma padów THT: '
+                            halign: "center"
+                            font_size:14
+                    MDBoxLayout:
+                        orientation:'vertical'
+                        MDBoxLayout:
+                            padding:10
+                            MDTextField:
+                                id: statSMT
+                                multiline: True
+                                readonly: True
+                                # fill_color_normal: [28/255,31/255,29/255,1]
+                                text_color_normal: [1,1,1,0.5]
+                                mode: "round"
+                                input_filter: 'int'
+                                text: ''
+                                halign: "center"
+                                font_size:16
+                        MDBoxLayout:
+                            padding:10
+                            MDTextField:
+                                id: statSMTpady
+                                multiline: True
+                                readonly: True
+                                # fill_color_normal: [28/255,31/255,29/255,1]
+                                text_color_normal: [1,1,1,0.5]
+                                mode: "round"
+                                input_filter: 'int'
+                                text: ''
+                                halign: "center"
+                                font_size:16
+                        MDBoxLayout:
+                            padding:10
+                            MDTextField:
+                                id: statTHT
+                                multiline: True
+                                readonly: True
+                                # fill_color_normal: [28/255,31/255,29/255,1]
+                                text_color_normal: [1,1,1,0.5]
+                                mode: "round"
+                                input_filter: 'int'
+                                text: ''
+                                halign: "center"
+                                font_size:16
+                        MDBoxLayout:
+                            padding:10
+                            MDTextField:
+                                id: statTHTpady
+                                multiline: True
+                                readonly: True
+                                # fill_color_normal: [28/255,31/255,29/255,1]
+                                text_color_normal: [1,1,1,0.5]
+                                mode: "round"
+                                input_filter: 'int'
+                                text: ''
+                                halign: "center"
+                                font_size:16
+
+            MDSeparator:                
+            MDBoxLayout:
+                orientation:'horizontal'
+                size_hint: (1, 1)
+                MDBoxLayout:
+                    orientation:'horizontal'
+                    size_hint: (1, 1)
+                    MDLabel:
+                        text:''
+                MDBoxLayout:
+                    orientation:'vertical'
+                    size_hint: (1, 1)
+                    MDBoxLayout:
+                        orientation:'vertical'
+                        size_hint: (1, 0.3)
+                        Image:
+                            source:r"images\Logo_Nanotech.png"
+                    MDBoxLayout:
+                        orientation:'vertical'
+                        size_hint: (1, 1)
+                        padding:[root.width/20,0,root.width/30,0]
+                        MDSpinner:
+                            id: loadingspinner
+                            # size_hint: None, None
+                            # size: dp(46), dp(46)
+                            pos_hint: {'center_x': .5, 'center_y': .5}
+                            opacity: 0
+            MDSeparator:
+        
+        MDBoxLayout:
+            orientation:'vertical'
+            size_hint: (1, 1)
+            spacing: root.width/100
+            MDSeparator:
+            MDBoxLayout:
+                orientation:'vertical'
+                size_hint: (1, 1)
+                MDBoxLayout:
+                    orientation:'vertical'
+                    size_hint: (1, 0.1)
+                    MDLabel:
+                        text:'Statystyka dla operatora: '
+                        halign: "center"
+                        font_size:14
+                MDBoxLayout:
+                    orientation:'vertical'
+                    size_hint: (1, 1)
+                    MDLabel:
+                        text:root.peregorodka
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text: root.rezystorykondensatoryrazem
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.rezystoryilosc
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.kondensatoryilosc
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.peregorodka
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.obudowyrazemilosc
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.obudowysmtilosc
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.obudowythtilosc
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.peregorodka
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.ilosckomponentowbazowa
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.dniilosc
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.errorsilosc
+                        halign: "center"
+                        font_size:14
+                    MDLabel:
+                        text:root.peregorodka
+                        halign: "center"
+                        font_size:14
+            MDSeparator:
+            MDBoxLayout:
+                orientation:'vertical'
+                size_hint: (1, 1)
+                MDBoxLayout:
+                    orientation:'vertical'
+                    size_hint: (1, 0.2)
+                    MDLabel:
+                        text:'Uwagi w projekcie: '
+                        halign: "center"
+                        font_size:14
+                MDBoxLayout:
+                    orientation:'vertical'
+                    size_hint: (1, 1)
+                    MDBoxLayout:
+                        orientation:'vertical'
+                        size_hint: (1, 1)
+                        MDGridLayout:
+                            cols: 2
+                            adaptive_height: True
+                            # width: root.width / 6
+                            # row_default_height: root.height / 35
+                            # size_hint_x: None
+                            # size_hint_y: None
+                            # padding: root.width / 60
+                            # spacing: root.width / 70
+                            MDBoxLayout:
+                                orientation:'horizontal'
+                                padding:[10,0,10,0]
+                                Check_UwagiBox:
+                                    id: uwagimycie
+                                    active: False
+                                    size: dp(24), dp(24)
+                                    on_active: root.add_UwagiCheckBox('Mycie')
+                                MDLabel:
+                                    text:' Mycie'
+                            MDBoxLayout:
+                                orientation:'horizontal'
+                                padding:[10,0,10,0]
+                                Check_UwagiBox:
+                                    id: uwagilakierowanie
+                                    active: False
+                                    size: dp(24), dp(24)
+                                    on_active: root.add_UwagiCheckBox('Lakierowanie')
+                                MDLabel:
+                                    text:' Lakierowanie'
+                            MDBoxLayout:
+                                orientation:'horizontal'
+                                padding:[10,0,10,0]
+                                Check_UwagiBox:
+                                    id: uwagiaoi
+                                    active: False
+                                    size: dp(24), dp(24)
+                                    on_active: root.add_UwagiCheckBox('AOI')
+                                MDLabel:
+                                    text:' AOI'
+                            MDBoxLayout:
+                                orientation:'horizontal'
+                                padding:[10,0,10,0]
+                                Check_UwagiBox:
+                                    id: uwagirtg
+                                    active: False
+                                    size: dp(24), dp(24)
+                                    on_active: root.add_UwagiCheckBox('RTG')
+                                MDLabel:
+                                    text:' RTG'
+                            MDBoxLayout:
+                                orientation:'horizontal'
+                                padding:[10,0,10,0]
+                                Check_UwagiBox:
+                                    id: uwagiprogramowanie
+                                    active: False
+                                    size: dp(24), dp(24)
+                                    on_active: root.add_UwagiCheckBox('Programowanie')
+                                MDLabel:
+                                    text:' Programowanie'
+                            MDBoxLayout:
+                                orientation:'horizontal'
+                                padding:[10,0,10,0]
+                                Check_UwagiBox:
+                                    id: uwagiszlifowanie
+                                    active: False
+                                    size: dp(24), dp(24)
+                                    on_active: root.add_UwagiCheckBox('Szlifowanie krawędzi')
+                                MDLabel:
+                                    text:' Szlifowanie krawędzi'
+                            MDBoxLayout:
+                                orientation:'horizontal'
+                                padding:[10,0,10,0]
+                                Check_UwagiBox:
+                                    id: uwagiipc
+                                    active: False
+                                    size: dp(24), dp(24)
+                                    on_active: root.add_UwagiCheckBox('IPC class 3')
+                                MDLabel:
+                                    text:' IPC class 3'
+                            MDBoxLayout:
+                                orientation:'horizontal'
+                                padding:[10,0,10,0]
+                                Check_UwagiBox:
+                                    id: uwagitestowanie
+                                    active: False
+                                    size: dp(24), dp(24)
+                                    on_active: root.add_UwagiCheckBox('Testowanie')
+                                MDLabel:
+                                    text:' Testowanie'
+                    MDSeparator:
+                    MDBoxLayout:
+                        orientation:'vertical'
+                        size_hint: (1, 1)
+                        MDLabel:
+                            text:root.statystykablendy
+                        # MDLabel:
+                        #     text:root.uwagizprojektu
+                        #     halign: "center"
+                        #     font_size:14
+            MDSeparator:
+            MDBoxLayout:
+                orientation:'vertical'
+                size_hint: (1, 1)
+                MDLabel:
+                    text:''
+                MDTextField:
+                    id: addkomentarz
+                    multiline: True
+                    hint_text: "Miejsce na komentarz operatora"
+                    max_text_length: 500
+                MDLabel:
+                    text:''
+            MDSeparator:
+
+        MDBoxLayout:
+            orientation:'vertical'
+            size_hint: (1, 1)
+            spacing: root.width/100
+            MDSeparator:
+            MDBoxLayout:
+                orientation:'vertical'
+                MDBoxLayout:
+                    orientation:'vertical'
+                    size_hint: (1, 0.3)
+                    MDLabel:
+                        text:'Lista dobrych komponentów'
+                        halign: "center"
+                    MDBoxLayout:
+                        padding:[14,0,14,0]
+                        size_hint: (1, 0.4)
+                        MDLabel:
+                            text:'type'
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'line'
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'pads'
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'case'
+                            halign: "center"
+                            font_size:14
+                MDBoxLayout:
+                    ScrollView:
+                        # size_hint_y: 0.84
+                        # pos_hint: {'x': 0, 'y': 0.08}
+                        do_scroll_x: False
+                        do_scroll_y: True
+
+                        MDGridLayout:
+                            id: goodstroki
+                            cols: 1
+                            adaptive_height: True
+                            width: root.width / 3.075
+                            row_default_height: root.height / 17
+                            size_hint_x: None
+                            size_hint_y: None
+                            padding: root.width / 60
+                            spacing: root.width / 70
+            MDSeparator:
+            MDBoxLayout:
+                orientation:'vertical'
+                MDBoxLayout:
+                    orientation:'vertical'
+                    size_hint: (1, 0.3)
+                    MDLabel:
+                        text:'Lista błędnych komponentów'
+                        halign: "center"
+                    MDBoxLayout:
+                        padding:[14,0,14,0]
+                        size_hint: (1, 0.4)
+                        MDLabel:
+                            text:'type'
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'line'
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'suma'
+                            halign: "center"
+                            font_size:14
+                        MDLabel:
+                            text:'case'
+                            halign: "center"
+                            font_size:14
+                        
+                MDBoxLayout:
+                    ScrollView:
+                        # size_hint_y: 0.84
+                        # pos_hint: {'x': 0, 'y': 0.08}
+                        do_scroll_x: False
+                        do_scroll_y: True
+
+                        MDGridLayout:
+                            id: errorstroki
+                            cols: 1
+                            adaptive_height: True
+                            width: root.width / 3.075
+                            row_default_height: root.height / 17
+                            size_hint_x: None
+                            size_hint_y: None
+                            padding: root.width / 60
+                            spacing: root.width / 70
+            MDSeparator:
+
+
+
+    # V1.0
+    # ######ZMIENNE
+    # errorstroki: errorstroki
+    # goodstroki: goodstroki
+    # loadingspinner: loadingspinner
+
+    # MDFloatLayout:
+    #     MDFillRoundFlatButton :
+    #         pos_hint: {"x":0.055, "y":0.06, "bottom":1}
+    #         text: "Wróć na start"
+    #         on_release:
+    #             app.root.current = "Startowe"
+    #             root.manager.transition.direction = "right"
+    #     MDFillRoundFlatButton :
+    #         pos_hint: {"x":0.057, "y":0.15, "bottom":1}
+    #         text: "Policz projekt"
+    #         on_release: root.Wyciagnij_komponenty_potok()
+
+
+    # MDBoxLayout:
+    #     orientation:'horizontal'
+
+    #     MDBoxLayout:
+    #         orientation:'vertical'
+    #         size_hint: (0.3, 1)
+    #         padding:30
+    #         # padding:[30,30,30,30]
+    #         # spacing:20
+    #         MDBoxLayout:
+    #             orientation:'vertical'
+    #             size_hint: (1, 0.6)
+    #             MDBoxLayout:
+    #                 size_hint: (1, 0.2)
+    #                 Image:
+    #                     source:r"images\Logo_Nanotech.png"
+    #             MDBoxLayout:   
+    #                 padding:25
+    #                 MDSpinner:
+    #                     id: loadingspinner
+    #                     # size_hint: None, None
+    #                     # size: dp(46), dp(46)
+    #                     pos_hint: {'center_x': .5, 'center_y': .5}
+    #                     opacity: 0
+
+    #             # MDLabel:
+    #             #     text:''
+    #         MDBoxLayout:
+    #             orientation:'vertical'
+    #             # size_hint: (0.3, 1)
+    #             MDLabel:
+    #                 text:''
+
+        
+
+    #     MDBoxLayout:
+    #         orientation:'vertical'
+    #         MDBoxLayout:
+    #             orientation:'horizontal'
+                    
+    #             MDBoxLayout:
+    #                 orientation:'vertical'
+    #                 MDBoxLayout:
+    #                     orientation:'vertical'
+    #                     size_hint: (1, 0.3)
+    #                     MDLabel:
+    #                         text:'Lista błędnych komponentów'
+    #                         halign: "center"
+    #                     MDBoxLayout:
+    #                         padding:[14,0,14,0]
+    #                         size_hint: (1, 0.4)
+    #                         MDLabel:
+    #                             text:'type'
+    #                             halign: "center"
+    #                             font_size:14
+    #                         MDLabel:
+    #                             text:'line'
+    #                             halign: "center"
+    #                             font_size:14
+    #                         MDLabel:
+    #                             text:'suma'
+    #                             halign: "center"
+    #                             font_size:14
+    #                         MDLabel:
+    #                             text:'case'
+    #                             halign: "center"
+    #                             font_size:14
+                            
+    #                 MDBoxLayout:
+    #                     ScrollView:
+    #                         # size_hint_y: 0.84
+    #                         # pos_hint: {'x': 0, 'y': 0.08}
+    #                         do_scroll_x: False
+    #                         do_scroll_y: True
+
+    #                         MDGridLayout:
+    #                             id: errorstroki
+    #                             cols: 1
+    #                             adaptive_height: True
+    #                             width: root.width / 2.6
+    #                             row_default_height: root.height / 14
+    #                             size_hint_x: None
+    #                             size_hint_y: None
+    #                             padding: root.width / 60
+    #                             spacing: root.width / 50
+    #             MDBoxLayout:
+    #                 orientation:'vertical'
+    #                 MDBoxLayout:
+    #                     orientation:'vertical'
+    #                     size_hint: (1, 0.3)
+    #                     MDLabel:
+    #                         text:'Lista dobrych komponentów'
+    #                         halign: "center"
+    #                     MDBoxLayout:
+    #                         padding:[14,0,14,0]
+    #                         size_hint: (1, 0.4)
+    #                         MDLabel:
+    #                             text:'type'
+    #                             halign: "center"
+    #                             font_size:14
+    #                         MDLabel:
+    #                             text:'line'
+    #                             halign: "center"
+    #                             font_size:14
+    #                         MDLabel:
+    #                             text:'pads'
+    #                             halign: "center"
+    #                             font_size:14
+    #                         MDLabel:
+    #                             text:'case'
+    #                             halign: "center"
+    #                             font_size:14
+    #                 MDBoxLayout:
+    #                     ScrollView:
+    #                         # size_hint_y: 0.84
+    #                         # pos_hint: {'x': 0, 'y': 0.08}
+    #                         do_scroll_x: False
+    #                         do_scroll_y: True
+
+    #                         MDGridLayout:
+    #                             id: goodstroki
+    #                             cols: 1
+    #                             adaptive_height: True
+    #                             width: root.width / 2.6
+    #                             row_default_height: root.height / 14
+    #                             size_hint_x: None
+    #                             size_hint_y: None
+    #                             padding: root.width / 60
+    #                             spacing: root.width / 50
+    #         MDBoxLayout:
+    #             orientation:'horizontal'
+    #             size_hint: (1, 1)
+    #             MDBoxLayout:
+    #                 orientation:'vertical'
+    #                 padding:20
+    #                 MDLabel:
+    #                     text:root.nazwaprojektu
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.peregorodka
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.ilosckomponentowbazowa
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.smtkomponenty
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.smtkomponentypady
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.thtkomponenty
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.thtkomponentypady
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.dniilosc
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.peregorodka
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.errorsilosc
+    #                     font_size:14
+
+    #             MDBoxLayout:
+    #                 orientation:'vertical'
+    #                 padding:20
+    #                 MDLabel:
+    #                     text: root.graniceprojektu
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.peregorodka
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.rezystorykondensatoryrazem
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.rezystoryilosc
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.kondensatoryilosc
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.peregorodka
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.obudowysmtilosc
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.obudowythtilosc
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.obudowyrazemilosc
+    #                     font_size:14
+    #                 MDLabel:
+    #                     text:root.peregorodka
+    #                     font_size:14
+
+
+
+
+
+
+
+########## Customizacja projektu
+
+<StrokaGood@MDCard>
+    line_color: [0.2, 0.2, 0.2, 1]
+    style: 'outlined'
+    radius: 18
+    ripple_behavior: False
+    linijka: ''
+    obudowa: ''
+    ilosc_padow: ''
+    MDBoxLayout:
+        orientation:'horizontal'
+        MDBoxLayout:
+            padding:7
+            Image:
+                source:r"images\ok.png"
+        MDBoxLayout:
+            MDLabel:
+                text:root.linijka
+                halign: "center"
+                font_size:14
+        MDBoxLayout:
+            MDLabel:
+                text:root.ilosc_padow
+                halign: "center"
+                font_size:14
+        MDBoxLayout:
+            MDLabel:
+                text:root.obudowa
+                halign: "center"
+                font_size:14
+
+<StrokaError@MDCard>
+    line_color: [0.2, 0.2, 0.2, 1]
+    style: 'outlined'
+    radius: 18
+    ripple_behavior: False
+    # md_bg_color: [192/255, 252/255, 222/255, 1]
+    linijka: ''
+    obudowa: ''
+    ilosc_szt: ''
+    MDBoxLayout:
+        orientation:'horizontal'
+        MDBoxLayout:
+            padding:7
+            Image:
+                source:r"images\not_ok.png"
+        MDBoxLayout:
+            MDLabel:
+                text:root.linijka
+                halign: "center"
+                font_size:14
+        MDBoxLayout:
+            MDLabel:
+                text:root.ilosc_szt
+                halign: "center"
+                font_size:14
+        MDBoxLayout:
+            MDLabel:
+                text:root.obudowa
+                halign: "center"
+                font_size:14
+        
+
+<MDLabel_custom@MDLabel>
+    color: 238/255, 238/255, 238/255, 1
+
+<Check_LZ@MDCheckbox>
+    group: 'group_LZ'
+    size_hint: None, None
+    size: dp(48), dp(48)
+    color_active: "red"
+
+<Check_UwagiBox@MDCheckbox>
+    size_hint: None, None
+    size: dp(48), dp(48)
+    color_active: "red"
