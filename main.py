@@ -396,7 +396,8 @@ class WorkWithComponentsWindow(Screen):
 
         ##Sprawdzamy adres projektu
         #Ladujemy Excel z komponentami
-        baza_komponentow = pd.read_excel(r"Baza_wiedzy\Komponenty.xlsx")
+        # baza_komponentow = pd.read_excel(r"Baza_wiedzy\Komponenty.xlsx")
+        baza_komponentow = pd.read_excel(r"\\gcl-ne-fs-1\Shared Files Office\Temp\Baza_wiedzy\Komponenty.xlsx")
         # print(baza_komponentow['Ilosc padow'])
 
         ##Definiujemy nazwę projektu
